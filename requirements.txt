@@ -1,9 +1,16 @@
+# Config
+pydantic==2.12.0
+python-dotenv==1.1.1
+
 # Notebook IDE
 jupyter==1.1.1
 
 # Data Manipulation
 pandas==2.1.3
 duckdb==1.4.1
+
+# LLM and Embeddings
+openai==2.2.0
 
 # LangChain core
 greenlet==3.2.4
