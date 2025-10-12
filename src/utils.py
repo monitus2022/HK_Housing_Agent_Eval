@@ -24,7 +24,7 @@ def connect_duckdb(function: callable) -> callable:
     return wrapper
 
 
-def time_function(function: callable) -> callable:
+def timer(function: callable) -> callable:
     """
     Wrapper function to time the execution of a function.
     """

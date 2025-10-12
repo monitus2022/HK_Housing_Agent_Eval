@@ -13,29 +13,22 @@ class LLMInfo(BaseModel):
     is_free: bool = Field(True, description="Is the model free to use")
 
 
-class BaseLLM(ABC):
-    def __init__(self):
-        self.model_name: str = None
-        self.api_url: str = None
-        self.api_key: str = None
-        self.kwargs: Optional[dict] = None
-
-    @abstractmethod
-    def prompt_model(self, prompt: str) -> str:
-        pass
-
-    @abstractmethod
-    def test_model(self) -> bool:
-        return False
-
-
 class LLMPromptTemplate(BaseModel):
-    system_prompt: str = Field(..., description="System prompt for the LLM")
-    user_prompt: str = Field(..., description="Template for user prompt")
-    assistant_prompt: str = Field(..., description="Template for assistant response")
+    user_prompt: str = Field(..., description="User prompt")
+    system_prompt: Optional[str] = Field(None, description="System prompt")
+    assistant_prompt: Optional[str] = Field(None, description="Assistant prompt")
+    
+    def to_list(self) -> list:
+        """Convert to list of messages for LLM input."""
+        messages = [{"role": "user", "content": self.user_prompt}]
+        if self.system_prompt:
+            messages.insert(0, {"role": "system", "content": self.system_prompt})
+        if self.assistant_prompt:
+            messages.append({"role": "assistant", "content": self.assistant_prompt})
+        return messages
 
 
-class PromptConfig(BaseModel):
+class LLMPromptConfig(BaseModel):
     # Optional depends on use case and LLM capabilities
     temperature: Optional[float] = Field(
         None, description="Controls randomness (0.0 to 1.0)"
@@ -52,3 +45,23 @@ class PromptConfig(BaseModel):
     def to_dict(self) -> dict:
         """Convert to dict for logging/serialization, excluding None values."""
         return {k: v for k, v in self.model_dump().items() if v is not None}
+
+
+class BaseLLM(ABC):
+    def __init__(self):
+        self.model_name: str = None
+        self.api_url: str = None
+        self.api_key: str = None
+        self.kwargs: Optional[dict] = None
+
+    @abstractmethod
+    def get_model_info(self) -> Optional[LLMInfo]:
+        pass
+
+    @abstractmethod
+    def prompt_model(self, prompt: LLMPromptTemplate) -> str:
+        pass
+
+    @abstractmethod
+    def test_model(self) -> bool:
+        return False

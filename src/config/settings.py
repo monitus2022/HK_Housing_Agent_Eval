@@ -6,9 +6,6 @@ from logger import housing_logger
 
 class EvalSettings(BaseSettings):
 
-    housing_logger.info(f"CWD: {os.getcwd()}")
-    housing_logger.info(f".env exists: {os.path.exists('.env')}")
-
     openrouter_api_url: str = Field(
         default="https://openrouter.ai/api/v1", env="OPENROUTER_API_URL"
     )
