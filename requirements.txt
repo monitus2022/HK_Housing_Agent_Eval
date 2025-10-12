@@ -1,6 +1,7 @@
 # Config
 pydantic==2.12.0
 python-dotenv==1.1.1
+colorlog==6.9.0
 
 # Notebook IDE
 jupyter==1.1.1
