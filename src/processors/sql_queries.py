@@ -36,30 +36,31 @@ def create_train_test_split_tables(
     random_state: int = 42,
 ) -> None:
     """
-    Split a table into approximate train and test sets using SAMPLE.
-    Note: This creates independent samples, not exact complementary sets.
+    Split a table into exact, complementary train and test sets using SAMPLE.
+    Test is a random sample; train is the exact complement.
     """
     test_percentage = test_size * 100
-    train_percentage = (1 - test_size) * 100
 
     # Drop existing tables
     drop_table_if_exists(conn, f"{table_name}_test_data")
     drop_table_if_exists(conn, f"{table_name}_train_data")
 
-    # Create test set (random sample)
+    # Create test set (random sample with seed for reproducibility)
     test_query = f"""
         CREATE TABLE {table_name}_test_data AS
         SELECT * FROM {table_name} USING SAMPLE {test_percentage}% (SYSTEM, {random_state})
     """
     conn.execute(test_query)
 
-    # Create train set (random sample of remaining approximate size)
+    # Create train set (exact complement using EXCEPT)
     train_query = f"""
         CREATE TABLE {table_name}_train_data AS
-        SELECT * FROM {table_name} USING SAMPLE {train_percentage}% (SYSTEM, {random_state})
+        SELECT * FROM {table_name}
+        EXCEPT
+        SELECT * FROM {table_name}_test_data
     """
     conn.execute(train_query)
 
     housing_logger.info(
-        f"Approximate data split into train and test sets with test size ~{test_size}."
+        f"Data split into complementary train and test sets with test size ~{test_size}."
     )
