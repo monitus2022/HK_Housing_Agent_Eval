@@ -1,32 +1,34 @@
 {
-  "free_models": [
+  "openrouter": [
     {
       "name": "llama",
       "parameters": "70b",
       "id": "meta-llama/llama-3.3-70b-instruct:free",
-      "description": ""
+      "description": "",
+      "is_free": true
     },
     {
       "name": "llama_small",
       "parameters": "8b",
       "id": "meta-llama/llama-3.3-8b-instruct:free",
-      "description": ""
+      "description": "",
+      "is_free": true
     },
     {
       "name": "deepseek",
       "parameters": "31b",
       "id": "deepseek/deepseek-chat-v3.1:free",
-      "description": ""
-    }
-  ],
-  "paid_models": [
+      "description": "",
+      "is_free": true
+    },
     {
       "name": "llama",
       "parameters": "8b",
       "id": "meta-llama/llama-3.1-8b-instruct",
       "input_cost": 0.02,
       "output_cost": 0.03,
-      "description": ""
+      "description": "",
+      "is_free": false
     },
     {
       "name": "openai",
@@ -34,7 +36,8 @@
       "id": "openai/gpt-oss-20b",
       "input_cost": 0.03,
       "output_cost": 0.14,
-      "description": ""
+      "description": "",
+      "is_free": false
     },
     {
       "name": "gemini",
@@ -42,7 +45,8 @@
       "id": "google/gemini-2.5-flash-lite",
       "input_cost": 0.1,
       "output_cost": 0.4,
-      "description": ""
+      "description": "",
+      "is_free": false
     }
   ]
 }
