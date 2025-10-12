@@ -1,13 +1,13 @@
 import duckdb
 from logger import housing_logger
-from config import housing_settings
+from config import settings
 
 def connect_duckdb(function: callable) -> callable:
     """
     Wrapper function to connect to DuckDB, and close the connection after the function call.
     """
     def wrapper(*args, **kwargs):
-        db_path = housing_settings.DUCKDB_PATH
+        db_path = settings.duckdb_path
         conn = duckdb.connect(database=db_path)
         try:
             housing_logger.info(f"Connected to DuckDB at {db_path}")

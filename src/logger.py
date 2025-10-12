@@ -23,4 +23,4 @@ class HousingLogger:
     def get_logger(self):
         return self.logger
 
-housing_logger = HousingLogger('Backend').get_logger()
+housing_logger = HousingLogger('Eval').get_logger()

@@ -1,5 +1,9 @@
+from processors import train_test_split_data
+
 def main():
-    pass
+    train_test_split_data(
+        table_name="estate_info"
+    )
 
 if __name__ == "__main__":
     main()

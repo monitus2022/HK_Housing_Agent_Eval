@@ -1,1 +1,1 @@
-from .settings import housing_settings
+from .settings import settings
