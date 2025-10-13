@@ -14,21 +14,21 @@ class LLMInfo(BaseModel):
 
 
 class LLMPromptTemplate(BaseModel):
-    user_prompt: str = Field(..., description="User prompt")
-    system_prompt: Optional[str] = Field(None, description="System prompt")
-    assistant_prompt: Optional[str] = Field(None, description="Assistant prompt")
-    
+    user_messages: str = Field(..., description="User messages")
+    system_messages: Optional[str] = Field(None, description="System messages")
+    assistant_messages: Optional[str] = Field(None, description="Assistant messages")
+
     def to_list(self) -> list:
         """Convert to list of messages for LLM input."""
-        messages = [{"role": "user", "content": self.user_prompt}]
-        if self.system_prompt:
-            messages.insert(0, {"role": "system", "content": self.system_prompt})
-        if self.assistant_prompt:
-            messages.append({"role": "assistant", "content": self.assistant_prompt})
+        messages = [{"role": "user", "content": self.user_messages}]
+        if self.system_messages:
+            messages.insert(0, {"role": "system", "content": self.system_messages})
+        if self.assistant_messages:
+            messages.append({"role": "assistant", "content": self.assistant_messages})
         return messages
 
 
-class LLMPromptConfig(BaseModel):
+class LLMExtraConfig(BaseModel):
     # Optional depends on use case and LLM capabilities
     temperature: Optional[float] = Field(
         None, description="Controls randomness (0.0 to 1.0)"
@@ -48,6 +48,9 @@ class LLMPromptConfig(BaseModel):
 
 
 class BaseLLM(ABC):
+    """
+    Base class for all LLMs.
+    """
     def __init__(self):
         self.model_name: str = None
         self.api_url: str = None

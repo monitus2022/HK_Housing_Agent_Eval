@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from .base import (
     BaseLLM,
     LLMInfo,
-    LLMPromptConfig,
+    LLMExtraConfig,
     LLMPromptTemplate,
 )
 from config import settings
@@ -18,7 +18,7 @@ MODEL_INFO_FILE_PATH = settings.llm_info_json_path
 
 class OpenRouterLLMInfo(BaseModel):
     """
-    Load Json info for OpenRouter models.
+    Load Json info for OpenRouter models, available for choices in eval.
     """
 
     models: list[LLMInfo] = Field(default_factory=list)
