@@ -24,3 +24,7 @@ class LLMPromptTemplate(BaseModel):
         if self.assistant_messages:
             parts.append(f"Assistant: {self.assistant_messages}")
         return "\n\n".join(parts)
+    
+    def to_dict(self) -> dict:
+        """Convert to dictionary."""
+        return self.model_dump()

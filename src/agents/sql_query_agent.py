@@ -8,8 +8,10 @@ from db import DuckDBManager, QueryExecutor
 
 from typing import Optional
 from langchain_openai import ChatOpenAI
+from langchain.chains.base import Chain
 from langchain_core.messages import AIMessage
 from langchain_community.callbacks.openai_info import OpenAICallbackHandler
+from langchain_core.output_parsers import StrOutputParser
 
 
 class SqlQueryAgent(BaseAgent):
@@ -83,3 +85,4 @@ class SqlQueryAgent(BaseAgent):
             housing_logger.error("No response from the model.")
             raise ValueError("No response from the model.")
         return response
+   

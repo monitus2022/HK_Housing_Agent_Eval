@@ -1,6 +1,5 @@
 from agents.sql_query_agent import SqlQueryAgent
 from prompts import create_sql_prompt
-from logger import housing_logger
 from pprint import pprint
 
 def main():
@@ -10,7 +9,7 @@ def main():
     agent.setup_agent(model_params=None)
 
     prompt = create_sql_prompt(
-        user_question="What is the northernmost estate in hong kong?",
+        user_question="What are the 3 northernmost estates in Hong Kong?",
         db_schema=table_schema
     )
     response = agent.act(prompt)
