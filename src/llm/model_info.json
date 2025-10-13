@@ -1,21 +1,21 @@
 {
   "openrouter": [
     {
-      "name": "llama",
+      "name": "llama_free",
       "parameters": "70b",
       "id": "meta-llama/llama-3.3-70b-instruct:free",
       "description": "",
       "is_free": true
     },
     {
-      "name": "llama_small",
+      "name": "llama_small_free",
       "parameters": "8b",
       "id": "meta-llama/llama-3.3-8b-instruct:free",
       "description": "",
       "is_free": true
     },
     {
-      "name": "deepseek",
+      "name": "deepseek_free",
       "parameters": "31b",
       "id": "deepseek/deepseek-chat-v3.1:free",
       "description": "",

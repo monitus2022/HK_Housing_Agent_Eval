@@ -7,18 +7,19 @@ from langchain_community.callbacks.openai_info import OpenAICallbackHandler
 from config import settings
 from typing import Optional
 from llm.openrouter import openrouter_llm_info
-from llm.base import LLMPromptTemplate, LLMExtraConfig
+from llm.base import LLMExtraConfig
+from prompts import LLMPromptTemplate
 from logger import housing_logger
 from utils import timer
 
 class LangChainSqlAgent(BaseAgent):    
     """
-    Agent that interacts with duckdb SQL using LangChain's SQL Agent.
+    Agent that interacts with duckdb/sqlite SQL using LangChain's SQL Agent.
     """
     def __init__(self):
         super().__init__()
         self.agent_name: str = "LangChain SQL Agent"
-        self.description: str = "Agent that interacts with duckdb SQL using LangChain's SQL Agent."
+        self.description: str = "Agent that interacts with duckdb/sqlite SQL using LangChain's SQL Agent."
 
         self.model_name: Optional[str] = None
         self.model_id: Optional[str] = None
@@ -27,7 +28,6 @@ class LangChainSqlAgent(BaseAgent):
         self.toolkit: SQLDatabaseToolkit = None
         self.agent = None
         self.token_count = OpenAICallbackHandler()
-        self.db_path = "duckdb:///" + settings.duckdb_path
 
     
     def set_model(self,
@@ -53,9 +53,10 @@ class LangChainSqlAgent(BaseAgent):
             housing_logger.error("Either model_name or model_id must be provided.")
             raise ValueError("Either model_name or model_id must be provided.")
 
-    def setup_agent(self, model_params: Optional[LLMExtraConfig]) -> None:
+    def setup_agent(self, db_path: str, 
+                    model_params: Optional[LLMExtraConfig]) -> None:
         """
-        Setup SQL Agent for SINGLE duckdb.
+        Setup SQL Agent for SINGLE duckdb/sqlite.
         """
         if not self.model_id:
             housing_logger.error("Model not set. Call set_model() first.")
@@ -72,7 +73,7 @@ class LangChainSqlAgent(BaseAgent):
             model_name=self.model_id,
             **model_params,
         )
-        self.db = SQLDatabase.from_uri(self.db_path)
+        self.db = SQLDatabase.from_uri(db_path)
         if not self.db:
             housing_logger.error("Failed to connect to the database.")
             raise ValueError("Failed to connect to the database.")

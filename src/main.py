@@ -1,14 +1,18 @@
-from agents.langchain_sql_agents import LangChainSqlAgent
-from llm.base import LLMPromptTemplate
+from agents.sql_query_agent import SqlQueryAgent
+from llm import LLMPromptTemplate
+from config import settings
 
 def main():
-    agent = LangChainSqlAgent()
-    agent.set_model(model_name="openai")
+    agent = SqlQueryAgent()
+    agent.set_model(model_name="llama_small_free")
+    agent.setup_db(db_path=settings.duckdb_path, db_type="duckdb")
+    prompt = LLMPromptTemplate(
+        user_messages="Find the top 5 estates by transaction volume.",
+        system_prompt="You must use tools to answer. Do not say 'I don't know.' Always call a tool."
+    )
     agent.setup_agent(model_params=None)
-
-    prompt = LLMPromptTemplate(user_messages="Which are the 3 northernmost estates?")
     response = agent.act(prompt)
-    print(response)
+    print("Agent Response:", response)
 
 if __name__ == "__main__":
     main()

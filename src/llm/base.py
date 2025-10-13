@@ -13,21 +13,6 @@ class LLMInfo(BaseModel):
     is_free: bool = Field(True, description="Is the model free to use")
 
 
-class LLMPromptTemplate(BaseModel):
-    user_messages: str = Field(..., description="User messages")
-    system_messages: Optional[str] = Field(None, description="System messages")
-    assistant_messages: Optional[str] = Field(None, description="Assistant messages")
-
-    def to_list(self) -> list:
-        """Convert to list of messages for LLM input."""
-        messages = [{"role": "user", "content": self.user_messages}]
-        if self.system_messages:
-            messages.insert(0, {"role": "system", "content": self.system_messages})
-        if self.assistant_messages:
-            messages.append({"role": "assistant", "content": self.assistant_messages})
-        return messages
-
-
 class LLMExtraConfig(BaseModel):
     # Optional depends on use case and LLM capabilities
     temperature: Optional[float] = Field(
