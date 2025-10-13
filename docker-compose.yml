@@ -1,0 +1,8 @@
+services:
+  hk_housing_agent_eval:
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hk_housing_agent_eval
