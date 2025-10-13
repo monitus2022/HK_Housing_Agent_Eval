@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from pydantic import BaseModel, Field
 from typing import Optional
+from prompts import LLMPromptTemplate
 
 
 class LLMInfo(BaseModel):

@@ -1,18 +1,21 @@
 from agents.sql_query_agent import SqlQueryAgent
-from llm import LLMPromptTemplate
-from config import settings
+from prompts import create_sql_prompt
+from logger import housing_logger
+from pprint import pprint
 
 def main():
     agent = SqlQueryAgent()
+    table_schema = agent.query_executor.get_schema_from_table("estate_info")
     agent.set_model(model_name="llama_small_free")
-    agent.setup_db(db_path=settings.duckdb_path, db_type="duckdb")
-    prompt = LLMPromptTemplate(
-        user_messages="Find the top 5 estates by transaction volume.",
-        system_prompt="You must use tools to answer. Do not say 'I don't know.' Always call a tool."
-    )
     agent.setup_agent(model_params=None)
+
+    prompt = create_sql_prompt(
+        user_question="What is the northernmost estate in hong kong?",
+        db_schema=table_schema
+    )
     response = agent.act(prompt)
-    print("Agent Response:", response)
+    pprint(response.content)
+    return response
 
 if __name__ == "__main__":
     main()

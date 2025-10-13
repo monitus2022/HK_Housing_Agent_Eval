@@ -6,8 +6,7 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_community.callbacks.openai_info import OpenAICallbackHandler
 from config import settings
 from typing import Optional
-from llm.openrouter import openrouter_llm_info
-from llm.base import LLMExtraConfig
+from llm import openrouter_llm_info, LLMExtraConfig
 from prompts import LLMPromptTemplate
 from logger import housing_logger
 from utils import timer
